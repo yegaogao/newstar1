@@ -1,0 +1,46 @@
+<view class="container">
+  <view class="date-bar">
+    <text class="date-label">摆摊日期</text>
+    <picker mode="date" value="{{date}}" bindchange="onDateChange">
+      <view class="date-value">{{date}} ›</view>
+    </picker>
+  </view>
+
+  <view class="card">
+    <view class="card-title">商品售价</view>
+    <view class="field">
+      <text class="field-label">单份售价（元）</text>
+      <input class="field-input" type="digit" value="{{price}}" bindinput="onPriceInput" placeholder="0"/>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">卖出份数</view>
+    <view class="stepper">
+      <view class="step-btn" bindtap="dec">−</view>
+      <view class="step-num">{{servings}}</view>
+      <view class="step-btn" bindtap="inc">＋</view>
+    </view>
+    <view class="quick-row">
+      <view class="quick-btn" data-n="5" bindtap="addN">+5</view>
+      <view class="quick-btn" data-n="10" bindtap="addN">+10</view>
+      <view class="quick-btn" data-n="20" bindtap="addN">+20</view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">当日结算</view>
+    <view class="summary-row">
+      <text>销售额（{{servings}}份 × ¥{{price || '0'}}）</text>
+      <text class="big-num red">¥{{sales}}</text>
+    </view>
+    <view class="summary-row"><text>当日总成本</text><text>¥{{totalCost}}</text></view>
+    <view class="divider"></view>
+    <view class="summary-row total">
+      <text>净利润</text>
+      <text class="big-num {{profitClass}}">¥{{netProfit}}</text>
+    </view>
+  </view>
+
+  <button class="btn-primary" bindtap="saveSell">保存售卖记录</button>
+</view>

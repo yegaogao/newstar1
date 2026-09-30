@@ -1,0 +1,31 @@
+<view class="container">
+  <view class="page-head">历史摆摊记录</view>
+
+  <view wx:if="{{list.length === 0}}" class="empty">还没有记录，去“成本录入”和“售卖记账”添加吧～</view>
+
+  <view class="record" wx:for="{{list}}" wx:key="date">
+    <view class="record-head" data-index="{{index}}" bindtap="toggle">
+      <view class="record-date">{{item.date}}</view>
+      <view class="record-profit {{item.profitClass}}">净利润 ¥{{item.netProfit}}</view>
+    </view>
+    <view class="record-body" wx:if="{{item.open}}">
+      <view class="line" wx:for="{{item.variableItems}}" wx:for-item="v" wx:key="id">
+        <text>{{v.name}}</text><text>¥{{v.amount}}</text>
+      </view>
+      <view class="line strong"><text>变动成本合计</text><text>¥{{item.variableCost}}</text></view>
+      <view class="line"><text>大宗物料分摊</text><text>¥{{item.bulkDaily}}</text></view>
+      <view class="line"><text>摊位费</text><text>¥{{item.stallFee}}</text></view>
+      <view class="line strong"><text>当日总成本</text><text>¥{{item.totalCost}}</text></view>
+      <view class="divider"></view>
+      <view class="line"><text>单份售价</text><text>¥{{item.price}}</text></view>
+      <view class="line"><text>卖出份数</text><text>{{item.servings}} 份</text></view>
+      <view class="line strong"><text>当日销售额</text><text>¥{{item.sales}}</text></view>
+      <view class="divider"></view>
+      <view class="line strong"><text>当日净利润</text><text class="{{item.profitClass}}">¥{{item.netProfit}}</text></view>
+    </view>
+  </view>
+
+  <view wx:if="{{list.length > 0}}" class="clear-wrap">
+    <button class="btn-danger" bindtap="clearAll">清空所有数据</button>
+  </view>
+</view>

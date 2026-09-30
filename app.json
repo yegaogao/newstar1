@@ -1,0 +1,26 @@
+{
+  "pages": [
+    "pages/cost/cost",
+    "pages/sell/sell",
+    "pages/history/history"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#d84315",
+    "navigationBarTitleText": "福鼎肉片记账",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#fff7f0"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#d84315",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      { "pagePath": "pages/cost/cost", "text": "成本录入" },
+      { "pagePath": "pages/sell/sell", "text": "售卖记账" },
+      { "pagePath": "pages/history/history", "text": "历史记录" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
