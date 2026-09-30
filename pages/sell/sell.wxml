@@ -71,5 +71,5 @@
 
   <button class="btn-primary" bindtap="saveSell">保存售卖记录</button>
 
-  <view wx:if="{{!hasProducts}}" class="tip">提示：先在上方「选择商品」添加你的商品（如福鼎肉片、饮料等），再开始记账。</view>
+  <view wx:if="{{!hasProducts}}" class="tip">提示：先在上方「选择商品」添加你的商品（如招牌肉片、饮料等），再开始记账。</view>
 </view>

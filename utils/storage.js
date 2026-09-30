@@ -92,7 +92,7 @@ function setSelectedProductId(id) {
 }
 
 // 取某日各商品销售明细：[{productId,name,price,servings,sales}]
-// 兼容旧数据：若记录为顶层 price/servings，则当作单个商品处理（命名为"福鼎肉片"）
+// 兼容旧数据：若记录为顶层 price/servings，则当作单个商品处理（命名为"招牌肉片"）
 function getRecordProductSales(record, products) {
   record = record || {};
   products = products || getProducts();
@@ -105,7 +105,7 @@ function getRecordProductSales(record, products) {
   if (record.price !== undefined || record.servings !== undefined) {
     const price = parseFloat(record.price) || 0;
     const servings = Number(record.servings) || 0;
-    return [{ productId: '__legacy__', name: '福鼎肉片', price: price, servings: servings, sales: price * servings }];
+    return [{ productId: '__legacy__', name: '招牌肉片', price: price, servings: servings, sales: price * servings }];
   }
   return [];
 }
