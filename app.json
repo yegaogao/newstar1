@@ -5,14 +5,14 @@
     "pages/history/history"
   ],
   "window": {
-    "navigationBarBackgroundColor": "#F26419",
+    "navigationBarBackgroundColor": "#d84315",
     "navigationBarTitleText": "福鼎肉片记账",
     "navigationBarTextStyle": "white",
-    "backgroundColor": "#F3F4F6"
+    "backgroundColor": "#fff7f0"
   },
   "tabBar": {
-    "color": "#9CA3AF",
-    "selectedColor": "#F26419",
+    "color": "#999999",
+    "selectedColor": "#d84315",
     "backgroundColor": "#ffffff",
     "borderStyle": "black",
     "list": [
