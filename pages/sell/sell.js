@@ -164,6 +164,39 @@ Page({
     wx.showToast({ title: '已添加', icon: 'success' });
   },
 
+  // 删除当前选中的商品：从商品列表移除，并清除当日该商品的销售份数，自动切换到下一个商品
+  deleteProduct() {
+    const id = this.data.selectedId;
+    const name = this.data.selectedName;
+    if (!id) { wx.showToast({ title: '请先选择商品', icon: 'none' }); return; }
+    const that = this;
+    wx.showModal({
+      title: '删除商品',
+      content: '确定删除「' + (name || '该商品') + '」吗？该商品当日已记录的卖出份数也会一并清除，且无法恢复。',
+      confirmColor: '#e53935',
+      success: function (res) {
+        if (!res.confirm) return;
+        // 1) 从商品列表移除
+        const arr = store.deleteProduct(id);
+        // 2) 清除当日记录中该商品的份数，避免汇总仍计入
+        const records = store.getRecords();
+        const d = that.data.date;
+        const rec = records[d] || {};
+        if (rec.products && rec.products[id] !== undefined) {
+          delete rec.products[id];
+          records[d] = rec;
+          store.setRecords(records);
+        }
+        // 3) 重新选择（选第一项，列表空则清空）
+        const nextId = arr.length ? arr[0].id : '';
+        store.setSelectedProductId(nextId);
+        that.setData({ products: arr, hasProducts: arr.length > 0 });
+        that.syncSelected(that.data.date, nextId);
+        wx.showToast({ title: '已删除', icon: 'success' });
+      }
+    });
+  },
+
   // 保存（份数已实时落盘，这里再保一次并提示）
   saveSell() {
     this.persistServings();

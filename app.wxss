@@ -207,6 +207,7 @@ page {
   padding: 16rpx 0;
 }
 .btn-danger::after { border: none; }
+.del-prod-btn { margin-top: 20rpx; width: 100%; }
 
 /* 每日变动成本：可自定义多条 */
 .var-item {

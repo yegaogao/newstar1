@@ -21,6 +21,9 @@
       <input class="add-input price" type="digit" value="{{newPrice}}" bindinput="onNewPrice" placeholder="售价"/>
       <view class="add-btn" bindtap="addProduct">添加</view>
     </view>
+
+    <!-- 删除当前选中的商品（二次确认，并清除当日该商品份数） -->
+    <button class="btn-danger del-prod-btn" wx:if="{{selectedId}}" bindtap="deleteProduct">删除此商品（{{selectedName}}）</button>
   </view>
 
   <!-- ② 当前商品：售价与卖出份数 -->
