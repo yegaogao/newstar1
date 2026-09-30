@@ -11,36 +11,33 @@ Page({
 
   loadList() {
     const records = store.getRecords();
-    const bulkDaily = store.bulkDailyAllocation();
-    const stallFee = store.getStallFee();
     const arr = Object.keys(records).map(function (date) {
       const rec = records[date];
-      const items = store.normalizeVariableItems(rec);
-      let variableNum = 0;
-      const displayItems = items.map(function (it) {
-        const amt = parseFloat(it.amount) || 0;
-        variableNum += amt;
-        return { id: it.id, name: it.name, amount: store.fmt(amt) };
-      });
-      const totalNum = variableNum + bulkDaily + stallFee;
+      const t = store.computeDailyTotals(date);
 
-      const price = parseFloat(rec.price) || 0;
-      const servings = Number(rec.servings) || 0;
-      const salesNum = price * servings;
-      const netNum = salesNum - totalNum;
+      const items = store.normalizeVariableItems(rec);
+      const displayItems = items.map(function (it) {
+        return { id: it.id, name: it.name, amount: store.fmt(parseFloat(it.amount) || 0) };
+      });
+
+      // 各商品销售明细（仅显示有卖出的）
+      const productRows = t.productSales
+        .filter(function (p) { return p.servings > 0; })
+        .map(function (p) {
+          return { name: p.name, servings: p.servings, sales: store.fmt(p.sales) };
+        });
 
       return {
         date: date,
         variableItems: displayItems,
-        variableCost: store.fmt(variableNum),
-        bulkDaily: store.fmt(bulkDaily),
-        stallFee: store.fmt(stallFee),
-        totalCost: store.fmt(totalNum),
-        price: store.fmt(price),
-        servings: servings,
-        sales: store.fmt(salesNum),
-        netProfit: store.fmt(netNum),
-        profitClass: netNum >= 0 ? 'red' : 'green',
+        variableCost: t.variableCost,
+        bulkDaily: t.bulkDaily,
+        stallFee: t.stallFee,
+        totalCost: t.totalCost,
+        productRows: productRows,
+        totalSales: t.totalSales,
+        netProfit: t.netProfit,
+        profitClass: t.profitClass,
         open: false
       };
     });
@@ -57,13 +54,15 @@ Page({
   clearAll() {
     wx.showModal({
       title: '确认清空',
-      content: '将删除全部摆摊记录、大宗采购和摊位费设置，且无法恢复。',
+      content: '将删除全部摆摊记录、商品、大宗采购和摊位费设置，且无法恢复。',
       confirmColor: '#d84315',
       success: function (res) {
         if (res.confirm) {
           wx.removeStorageSync(store.KEY_RECORDS);
           wx.removeStorageSync(store.KEY_BULK);
           wx.removeStorageSync(store.KEY_STALL);
+          wx.removeStorageSync(store.KEY_PRODUCTS);
+          wx.removeStorageSync(store.KEY_SELECTED);
           this.setData({ list: [] });
           wx.showToast({ title: '已清空', icon: 'success' });
         }

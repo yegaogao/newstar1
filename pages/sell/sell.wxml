@@ -6,16 +6,31 @@
     </picker>
   </view>
 
+  <!-- ① 商品选择区域：下拉切换 + 新增商品 -->
   <view class="card">
-    <view class="card-title">商品售价</view>
+    <view class="card-title">① 选择商品</view>
     <view class="field">
-      <text class="field-label">单份售价（元）</text>
-      <input class="field-input" type="digit" value="{{price}}" bindinput="onPriceInput" placeholder="0"/>
+      <text class="field-label">当前商品</text>
+      <picker range="{{products}}" range-key="name" value="{{selectedIndex}}" bindchange="onProductChange">
+        <view class="picker-value">{{selectedName || '请选择 / 新增商品'}} ›</view>
+      </picker>
+    </view>
+
+    <view class="add-prod">
+      <input class="add-input" type="text" value="{{newName}}" bindinput="onNewName" placeholder="商品名称"/>
+      <input class="add-input price" type="digit" value="{{newPrice}}" bindinput="onNewPrice" placeholder="售价"/>
+      <view class="add-btn" bindtap="addProduct">添加</view>
     </view>
   </view>
 
+  <!-- ② 当前商品：售价与卖出份数 -->
   <view class="card">
-    <view class="card-title">卖出份数</view>
+    <view class="card-title">② 当前商品：{{selectedName || '—'}}</view>
+    <view class="field">
+      <text class="field-label">单份售价（元）</text>
+      <input class="field-input" type="digit" value="{{selectedPrice}}" bindinput="onPriceInput" placeholder="0"/>
+    </view>
+    <view class="card-sub">卖出份数</view>
     <view class="stepper">
       <view class="step-btn" bindtap="dec">−</view>
       <view class="step-num">{{servings}}</view>
@@ -26,21 +41,32 @@
       <view class="quick-btn" data-n="10" bindtap="addN">+10</view>
       <view class="quick-btn" data-n="20" bindtap="addN">+20</view>
     </view>
+    <view class="summary-row">
+      <text>当前商品小计（{{servings}}份 × ¥{{selectedPrice || '0'}}）</text>
+      <text class="summary-num">¥{{selectedSales}}</text>
+    </view>
   </view>
 
+  <!-- ③ 当日结算：当前商品小计 + 当日汇总 -->
   <view class="card">
-    <view class="card-title">当日结算</view>
+    <view class="card-title">③ 当日结算</view>
     <view class="summary-row">
-      <text>销售额（{{servings}}份 × ¥{{price || '0'}}）</text>
-      <text class="big-num red">¥{{sales}}</text>
+      <text>当前商品销售小计</text>
+      <text class="big-num red">¥{{selectedSales}}</text>
+    </view>
+    <view class="summary-row">
+      <text>当日总销售额</text>
+      <text class="summary-num">¥{{totalSales}}</text>
     </view>
     <view class="summary-row"><text>当日总成本</text><text>¥{{totalCost}}</text></view>
     <view class="divider"></view>
     <view class="summary-row total">
-      <text>净利润</text>
+      <text>总净利润</text>
       <text class="big-num {{profitClass}}">¥{{netProfit}}</text>
     </view>
   </view>
 
   <button class="btn-primary" bindtap="saveSell">保存售卖记录</button>
+
+  <view wx:if="{{!hasProducts}}" class="tip">提示：先在上方「选择商品」添加你的商品（如福鼎肉片、饮料等），再开始记账。</view>
 </view>

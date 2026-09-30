@@ -17,9 +17,13 @@
       <view class="line"><text>摊位费</text><text>¥{{item.stallFee}}</text></view>
       <view class="line strong"><text>当日总成本</text><text>¥{{item.totalCost}}</text></view>
       <view class="divider"></view>
-      <view class="line"><text>单份售价</text><text>¥{{item.price}}</text></view>
-      <view class="line"><text>卖出份数</text><text>{{item.servings}} 份</text></view>
-      <view class="line strong"><text>当日销售额</text><text>¥{{item.sales}}</text></view>
+      <view class="line strong"><text>商品销售明细</text></view>
+      <view class="prod-row" wx:for="{{item.productRows}}" wx:for-item="p" wx:key="name">
+        <text class="prod-name">{{p.name}}<text class="prod-sub">{{p.servings}} 份</text></text>
+        <text>¥{{p.sales}}</text>
+      </view>
+      <view wx:if="{{item.productRows.length === 0}}" class="prod-empty">（无销售商品）</view>
+      <view class="line strong"><text>当日总销售额</text><text>¥{{item.totalSales}}</text></view>
       <view class="divider"></view>
       <view class="line strong"><text>当日净利润</text><text class="{{item.profitClass}}">¥{{item.netProfit}}</text></view>
     </view>
